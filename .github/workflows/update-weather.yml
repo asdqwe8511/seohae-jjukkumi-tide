@@ -17,7 +17,7 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: 앞바다 예보 다시 받기
         run: bash tools/fetch-weather.sh index.html
