@@ -48,3 +48,21 @@ git push -u origin main
 - 스크립트는 수집 실패·파싱 이상·결과 파일 축소를 감지하면 중단하고 `index.html` 을 건드리지 않는다.
 
 조석(`TIDE`) 데이터는 자동 갱신 대상이 아니다. 천문 계산이라 2026-11-30까지 이미 정확하다.
+
+## OG 이미지
+
+`og.png` (1200×630)는 링크 공유용 미리보기 이미지다. `tools/make-og-image.ps1` 이 .NET System.Drawing으로
+사이트와 같은 팔레트·서체로 그린다. 사이트 데이터가 바뀌어도 이 이미지는 자동 갱신되지 않는다 — 필요할 때만 다시 만든다.
+
+실행하려면 먼저 폰트 TTF를 `tools/fonts/` 에 받아야 한다. Google Fonts는 UA에 따라 포맷을 달리 주므로
+구형 안드로이드 UA로 요청해야 TTF가 온다.
+
+```bash
+UA="Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1"
+# Hahmlet:800 -> Hahmlet-800.ttf, IBM+Plex+Sans+KR:400 -> PlexKR-400.ttf,
+# IBM+Plex+Sans+KR:500 -> PlexKR-500.ttf, IBM+Plex+Mono:500 -> PlexMono-500.ttf
+curl -s -A "$UA" "https://fonts.googleapis.com/css?family=Hahmlet:800&subset=korean" # 여기서 나온 .ttf URL을 받는다
+```
+
+그다음 `powershell -File tools/make-og-image.ps1 og.png`.
+스크립트는 UTF-8 BOM으로 저장돼 있어야 한다 (PowerShell 5.1이 BOM 없는 파일을 ANSI로 읽어 한글이 깨진다).
