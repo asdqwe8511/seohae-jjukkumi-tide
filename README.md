@@ -36,3 +36,15 @@ git push -u origin main
 
 - 조석예보·앞바다 예보: 바다타임(https://www.badatime.com), 원자료는 국립해양조사원과 기상청
 - 출항 통제 기준: 어선안전조업법, 낚시 관리 및 육성법
+
+## 자동 갱신
+
+`.github/workflows/update-weather.yml` 이 **매주 월요일 06:00 KST**에 돌면서
+`tools/fetch-weather.sh` 로 앞바다 예보를 다시 받아 `index.html` 의 `WX` 블록만 교체한다.
+예보가 8일치라 주 1회면 빈틈이 생기지 않는다. 변화가 없으면 커밋하지 않는다.
+
+- 수동 실행: 저장소 Actions 탭 → "바다날씨 주간 갱신" → Run workflow
+- 로컬 실행: `bash tools/fetch-weather.sh index.html`
+- 스크립트는 수집 실패·파싱 이상·결과 파일 축소를 감지하면 중단하고 `index.html` 을 건드리지 않는다.
+
+조석(`TIDE`) 데이터는 자동 갱신 대상이 아니다. 천문 계산이라 2026-11-30까지 이미 정확하다.
